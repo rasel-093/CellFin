@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CellFin</string>
+    <string name="title_activity_statement">StatementActivity</string>
 </resources>
