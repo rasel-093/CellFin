@@ -1,5 +1,7 @@
 package com.example.cellfin.screens
 
+import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -26,14 +29,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cellfin.R
+import com.example.cellfin.StatementListActivity
 import com.example.cellfin.ui.theme.fontBlack
 import com.example.cellfin.ui.theme.primaryColor
 
 @Composable
-fun MiniStatementScreen(paddingValues: PaddingValues) {
+fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity) {
     var fromDate = rememberSaveable{
         mutableStateOf("15/11/2023")
     }
@@ -61,11 +67,10 @@ fun MiniStatementScreen(paddingValues: PaddingValues) {
                     .padding(top = 10.dp)
                     .horizontalScroll(rememberScrollState())
             ){
-                SourceCard(text = "CellFin")
-                SourceCard(text = "Account")
-                SourceCard(text = "Card")
-                SourceCard(text = "CellFin")
-                SourceCard(text = "M")
+                SourceCard(text = "CellFin" ,color = Color(0xFF6CDAA3))
+                SourceCard(text = "Account", color = Color(0xFFFFFFFF))
+                SourceCard(text = "Card", color = Color(0xFFFFFFFF))
+                SourceCard(text = "Mobile", color = Color(0xFFFFFFFF))
 
             }
         }
@@ -80,16 +85,16 @@ fun MiniStatementScreen(paddingValues: PaddingValues) {
             PasswordField(pass = passWord.value, onValueChange ={passWord.value = it} )
         }
 
-        ViewBtn()
+        ViewBtn(context = context)
 
     }
 }
 
 @Composable
-fun SourceCard(text: String) {
+fun SourceCard(text: String, color: Color) {
     OutlinedCard(
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFFFFFFF)
+            containerColor = color
         ),
         modifier = Modifier
             .padding(end = 10.dp)
@@ -217,16 +222,23 @@ fun PasswordField(pass: String,onValueChange: (String) -> Unit) {
                 text = "CellFin 6 Digit Pin",
                 color = Color.Gray)
                 },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done
+        ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 20.dp)
+            .padding(top = 10.dp)
     )
 }
 
 @Composable
-fun ViewBtn() {
+fun ViewBtn(context: ComponentActivity) {
     OutlinedButton(
-        onClick = { /*TODO*/ },
+        onClick = {
+            val intent = Intent(context,StatementListActivity::class.java)
+            context.startActivity(intent)
+        },
         colors = ButtonDefaults.buttonColors(
             containerColor = primaryColor,
             contentColor = Color(0xFFFFFFFF)

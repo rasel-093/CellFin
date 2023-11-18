@@ -42,7 +42,12 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
 //                        floatingActionButton = { FloatingActiionBtn(context)}
                     ) {padding->
-
+                        Button(onClick = {
+                            val intent = Intent(context,StatementActivity::class.java)
+                            context.startActivity(intent)
+                        }) {
+                            Text(text = "Click")
+                        }
                     }
                 }
             }
@@ -50,9 +55,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//Button(onClick = {
-//    val intent = Intent(context,StatementActivity::class.java)
-//    context.startActivity(intent)
-//}) {
-//    Text(text = "Click")
-//}
+

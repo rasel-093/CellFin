@@ -39,7 +39,7 @@ class StatementActivity : ComponentActivity() {
                     Scaffold(
                         topBar = {TopBar()}
                     ) {paddingValues ->
-                        MiniStatementScreen(paddingValues = paddingValues)
+                        MiniStatementScreen(paddingValues = paddingValues,this)
                     }
                 }
             }
