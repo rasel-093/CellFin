@@ -140,8 +140,8 @@ fun TrxItemCard(trxItem: TrxItem) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = if(trxItem.trxType) "-${trxItem.amount}" else "+${trxItem.amount}",
-                        color = if(trxItem.trxType) Color.Red else Color(0xFF398661),
+                        text = if(!trxItem.trxType) "-${trxItem.amount}" else "+${trxItem.amount}",
+                        color = if(!trxItem.trxType) Color.Red else Color(0xFF398661),
                         fontWeight = FontWeight.SemiBold
                     )
                     Icon(
