@@ -44,10 +44,10 @@ import com.example.cellfin.ui.theme.primaryColor
 @Composable
 fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity) {
     var fromDate = rememberSaveable{
-        mutableStateOf("15/11/2023")
+        mutableStateOf("19/10/2023")
     }
     var toDate = rememberSaveable{
-        mutableStateOf("21/11/2023")
+        mutableStateOf("19/11/2023")
     }
     var passWord by rememberSaveable{
         mutableStateOf("")
