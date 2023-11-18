@@ -33,6 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cellfin.R
@@ -43,10 +45,10 @@ import com.example.cellfin.ui.theme.primaryColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity) {
-    var fromDate = rememberSaveable{
+    var fromDate by rememberSaveable{
         mutableStateOf("19/10/2023")
     }
-    var toDate = rememberSaveable{
+    var toDate by rememberSaveable{
         mutableStateOf("19/11/2023")
     }
     var passWord by rememberSaveable{
@@ -83,8 +85,8 @@ fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity
                 .fillMaxWidth()
                 .padding(top = 15.dp)
         ) {
-            TextField(text = fromDate.value,"From Date", onValueChange = {fromDate.value = it} )
-            TextField(text = toDate.value,"To Date", onValueChange = {toDate.value = it} )
+            TextField(text = fromDate,"From Date", onValueChange = {fromDate = it} )
+            TextField(text = toDate,"To Date", onValueChange = {toDate = it} )
 //            PasswordField(pass = passWord.value, onValueChange ={passWord.value = it} )
             OutlinedTextField(
                 leadingIcon = {
@@ -112,6 +114,7 @@ fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
+                visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
