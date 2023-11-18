@@ -22,8 +22,10 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +40,7 @@ import com.example.cellfin.StatementListActivity
 import com.example.cellfin.ui.theme.fontBlack
 import com.example.cellfin.ui.theme.primaryColor
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity) {
     var fromDate = rememberSaveable{
@@ -46,7 +49,7 @@ fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity
     var toDate = rememberSaveable{
         mutableStateOf("21/11/2023")
     }
-    var passWord = rememberSaveable{
+    var passWord by rememberSaveable{
         mutableStateOf("")
     }
     Column(
@@ -82,7 +85,37 @@ fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity
         ) {
             TextField(text = fromDate.value,"From Date", onValueChange = {fromDate.value = it} )
             TextField(text = toDate.value,"To Date", onValueChange = {toDate.value = it} )
-            PasswordField(pass = passWord.value, onValueChange ={passWord.value = it} )
+//            PasswordField(pass = passWord.value, onValueChange ={passWord.value = it} )
+            OutlinedTextField(
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.lock_icon),
+                        contentDescription = null,
+                        tint = Color.Gray
+                    )
+                },
+                value = passWord,
+                onValueChange = {passWord = it},
+                trailingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.eye_icon),
+                        contentDescription = null ,
+                        tint = Color.Gray
+                    )
+                },
+                label = {
+                    Text(
+                        text = "CellFin 6 Digit Pin",
+                        color = Color.Gray)
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            )
         }
 
         ViewBtn(context = context)

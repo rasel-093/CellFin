@@ -89,4 +89,7 @@ dependencies {
 
     //Compose navigation
     implementation("androidx.navigation:navigation-compose:2.7.5")
+
+    //pager
+    implementation ("com.google.accompanist:accompanist-pager:0.22.0-rc")
 }

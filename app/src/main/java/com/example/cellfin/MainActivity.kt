@@ -1,34 +1,25 @@
 package com.example.cellfin
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.cellfin.screens.HomeScreen
+import com.example.cellfin.screens.LoginScreen
+import com.example.cellfin.screens.Splash
 import com.example.cellfin.ui.theme.CellFinTheme
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -38,21 +29,37 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val context = this
-                    Scaffold(
-//                        floatingActionButton = { FloatingActiionBtn(context)}
-                    ) {padding->
-                        Button(onClick = {
-                            val intent = Intent(context,StatementActivity::class.java)
-                            context.startActivity(intent)
-                        }) {
-                            Text(text = "Click")
-                        }
-                    }
+                    navigation()
                 }
             }
         }
     }
 }
 
+@Composable
+fun navigation(){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "splash"){
+        composable("splash"){
+            SplashScreen(navController = navController)
+        }
+        composable("login"){
+            LoginScreen(navController = navController)
+        }
+        composable("home"){
+            HomeScreen(navController = navController)
+        }
+        composable("statement"){
 
+        }
+    }
+}
+
+@Composable
+fun SplashScreen(navController:NavController){
+    LaunchedEffect(key1 = true){
+        delay(10000L)
+        navController.navigate("login")
+    }
+    Splash()
+}
