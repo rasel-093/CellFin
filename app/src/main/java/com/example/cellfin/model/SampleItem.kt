@@ -8,7 +8,7 @@ val trxList = listOf(
         date = "18/11/2023",
         trxId = "8723092700007769",
         amount = "5000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 2,
@@ -17,7 +17,7 @@ val trxList = listOf(
         date = "17/11/2023",
         trxId = "8723092700007745",
         amount = "10000",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 3,
@@ -26,7 +26,7 @@ val trxList = listOf(
         date = "17/11/2023",
         trxId = "8723092700007763",
         amount = "100",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 4,
@@ -35,7 +35,7 @@ val trxList = listOf(
         date = "15/11/2023",
         trxId = "8723092700007709",
         amount = "10000",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 5,
@@ -44,7 +44,7 @@ val trxList = listOf(
         date = "14/11/2023",
         trxId = "8723092700007732",
         amount = "50000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 6,
@@ -53,7 +53,7 @@ val trxList = listOf(
         date = "14/11/2023",
         trxId = "8723092700007787",
         amount = "60000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 7,
@@ -62,7 +62,7 @@ val trxList = listOf(
         date = "13/11/2023",
         trxId = "8723092700007709",
         amount = "15000",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 8,
@@ -71,7 +71,7 @@ val trxList = listOf(
         date = "13/11/2023",
         trxId = "8723092700007769",
         amount = "2000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 9,
@@ -80,7 +80,7 @@ val trxList = listOf(
         date = "12/11/2023",
         trxId = "8723092700007632",
         amount = "40000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 10,
@@ -89,7 +89,7 @@ val trxList = listOf(
         date = "25/10/2023",
         trxId = "8723092700007763",
         amount = "150",
-        trxType = false
+        trxType = true.toString()
     ),
     TrxItem(
         id = 11,
@@ -98,7 +98,7 @@ val trxList = listOf(
         date = "24/10/2023",
         trxId = "8723092700007769",
         amount = "15000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 12,
@@ -107,7 +107,7 @@ val trxList = listOf(
         date = "23/10/2023",
         trxId = "8723092700007745",
         amount = "50000",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 13,
@@ -116,7 +116,7 @@ val trxList = listOf(
         date = "23/10/2023",
         trxId = "8723092700007763",
         amount = "500",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 14,
@@ -125,7 +125,7 @@ val trxList = listOf(
         date = "23/10/2023",
         trxId = "8723092700007709",
         amount = "20000",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 15,
@@ -134,7 +134,7 @@ val trxList = listOf(
         date = "22/10/2023",
         trxId = "8723092700007732",
         amount = "50000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 16,
@@ -143,7 +143,7 @@ val trxList = listOf(
         date = "21/10/2023",
         trxId = "8723092700007787",
         amount = "70000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id =17,
@@ -152,7 +152,7 @@ val trxList = listOf(
         date = "21/10/2023",
         trxId = "8723092700007709",
         amount = "12000",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 18,
@@ -161,7 +161,7 @@ val trxList = listOf(
         date = "20/10/2023",
         trxId = "8723092700007769",
         amount = "20000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 19,
@@ -170,7 +170,7 @@ val trxList = listOf(
         date = "19/10/2023",
         trxId = "8723092700007632",
         amount = "40000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 20,
@@ -179,7 +179,7 @@ val trxList = listOf(
         date = "19/10/2023",
         trxId = "8723092700007763",
         amount = "250",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 21,
@@ -188,7 +188,7 @@ val trxList = listOf(
         date = "19/10/2023",
         trxId = "8723092700007787",
         amount = "7000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id =22,
@@ -197,7 +197,7 @@ val trxList = listOf(
         date = "19/10/2023",
         trxId = "8723092700007709",
         amount = "15000",
-        trxType = false
+        trxType = false.toString()
     ),
     TrxItem(
         id = 23,
@@ -206,7 +206,7 @@ val trxList = listOf(
         date = "19/10/2023",
         trxId = "8723092700007769",
         amount = "20000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 24,
@@ -215,7 +215,7 @@ val trxList = listOf(
         date = "19/10/2023",
         trxId = "8723092700007632",
         amount = "50000",
-        trxType = true
+        trxType = true.toString()
     ),
     TrxItem(
         id = 25,
@@ -224,6 +224,6 @@ val trxList = listOf(
         date = "19/10/2023",
         trxId = "8723092700007763",
         amount = "350",
-        trxType = false
+        trxType = false.toString()
     )
 )

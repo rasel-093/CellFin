@@ -83,7 +83,7 @@ fun HeadingContent(padding: PaddingValues) {
     ) {
         HeadingText(text = "CellFin")
         HeadingText(text = "01618 964 627")
-        HeadingText(text = "15/07/2023 to 21/11/2023")
+        HeadingText(text = "19/10/2023 to 19/11/2023")
     }
 }
 
@@ -140,8 +140,8 @@ fun TrxItemCard(trxItem: TrxItem) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = if(!trxItem.trxType) "-${trxItem.amount}" else "+${trxItem.amount}",
-                        color = if(!trxItem.trxType) Color.Red else Color(0xFF398661),
+                        text = if(!trxItem.type()) "-${trxItem.amount}" else "+${trxItem.amount}",
+                        color = if(!trxItem.type()) Color.Red else Color(0xFF398661),
                         fontWeight = FontWeight.SemiBold
                     )
                     Icon(

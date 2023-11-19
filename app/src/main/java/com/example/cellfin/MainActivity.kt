@@ -58,7 +58,7 @@ fun navigation(){
 @Composable
 fun SplashScreen(navController:NavController){
     LaunchedEffect(key1 = true){
-        delay(10000L)
+        delay(1000L)
         navController.navigate("login")
     }
     Splash()
