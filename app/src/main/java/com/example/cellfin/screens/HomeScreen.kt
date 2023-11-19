@@ -44,6 +44,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,6 +58,8 @@ import com.example.cellfin.StatementActivity
 import com.example.cellfin.model.TrxItem
 import com.example.cellfin.model.TrxViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -146,9 +149,13 @@ fun HomeScreen(navController: NavController, trxViewModel: TrxViewModel){
     }
 
     //Bottom sheet
+    val currentDate = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val formattedCurrentDate = currentDate.format(formatter)
+
     var title by rememberSaveable { mutableStateOf("") }
     var details by rememberSaveable { mutableStateOf("") }
-    var date by rememberSaveable { mutableStateOf("") }
+    var date by rememberSaveable { mutableStateOf(formattedCurrentDate.toString()) }
     var trxId by rememberSaveable { mutableStateOf("") }
     var amount by rememberSaveable { mutableStateOf("") }
     var type by rememberSaveable { mutableStateOf("") }
@@ -170,26 +177,36 @@ fun HomeScreen(navController: NavController, trxViewModel: TrxViewModel){
                     value = title,
                     onValueChange = {title = it},
                     label = { Text(text = "Title")},
-                    singleLine = true
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 OutlinedTextField(
                     value = details,
                     onValueChange = {details = it},
                     label = {Text(text = "Details")},
-                    singleLine = true
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 OutlinedTextField(
                     value = date,
                     onValueChange = {date = it},
                     label = {Text(text = "Date")},
-                    singleLine = true
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
                 OutlinedTextField(
                     value = trxId,
                     onValueChange = {trxId = it},
                     label = {Text(text = "Transaction Id")},
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
                     ),
                     singleLine = true
                 )
@@ -198,7 +215,8 @@ fun HomeScreen(navController: NavController, trxViewModel: TrxViewModel){
                     onValueChange = {amount = it},
                     label = {Text(text = "amount")},
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
                     ),
                     singleLine = true
                 )
@@ -225,17 +243,22 @@ fun HomeScreen(navController: NavController, trxViewModel: TrxViewModel){
                 Row(modifier = Modifier.fillMaxWidth(0.8f),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                     OutlinedButton(
                         onClick = {
-                            var trxItem = TrxItem(
-                                null,
-                                title = title,
-                                details = details,
-                                date = date,
-                                trxId = trxId,
-                                amount = amount,
-                                trxType = if(selectedOption == radioOptions[0]) true.toString() else false.toString()
-                            )
-                            trxViewModel.insertTrx(trxItem)
-                            Toast.makeText(context,"Transaction Saved",Toast.LENGTH_SHORT).show()
+                            if(title.isNotEmpty() && details.isNotEmpty() && date.isNotEmpty() && trxId.isNotEmpty() && amount.isNotEmpty()){
+                                var trxItem = TrxItem(
+                                    null,
+                                    title = title,
+                                    details = details,
+                                    date = date,
+                                    trxId = trxId,
+                                    amount = amount,
+                                    trxType = if(selectedOption == radioOptions[0]) true.toString() else false.toString()
+                                )
+                                trxViewModel.insertTrx(trxItem)
+                                Toast.makeText(context,"Transaction Saved",Toast.LENGTH_SHORT).show()
+                            }
+                            else{
+                                Toast.makeText(context,"Empty field",Toast.LENGTH_SHORT).show()
+                            }
                         }) {
                         Text(text = "Save", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     }
