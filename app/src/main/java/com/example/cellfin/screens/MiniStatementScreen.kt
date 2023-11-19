@@ -41,16 +41,30 @@ import com.example.cellfin.R
 import com.example.cellfin.StatementListActivity
 import com.example.cellfin.ui.theme.fontBlack
 import com.example.cellfin.ui.theme.primaryColor
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiniStatementScreen(paddingValues: PaddingValues, context: ComponentActivity) {
-    var fromDate by rememberSaveable{
-        mutableStateOf("19/10/2023")
-    }
-    var toDate by rememberSaveable{
-        mutableStateOf("19/11/2023")
-    }
+//    var fromDate by rememberSaveable{
+//        mutableStateOf("19/10/2023")
+//    }
+//    var toDate by rememberSaveable{
+//        mutableStateOf("19/11/2023")
+//    }
+//    val current = LocalDate.now()
+
+    val currentDate = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val formattedCurrentDate = currentDate.format(formatter)
+    val prevDate = currentDate.minusDays(30)
+    val formattedPrevDate = prevDate.format(formatter)
+
+    var fromDate = formattedPrevDate.toString()
+    var toDate = formattedCurrentDate.toString()
     var passWord by rememberSaveable{
         mutableStateOf("")
     }
@@ -232,42 +246,6 @@ fun TextField(text: String, label:String, onValueChange: (String)->Unit) {
                 .padding(top = 10.dp)
         )
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PasswordField(pass: String,onValueChange: (String) -> Unit) {
-    OutlinedTextField(
-        leadingIcon = {
-                      Icon(
-                          painter = painterResource(id = R.drawable.lock_icon),
-                          contentDescription = null,
-                          tint = Color.Gray
-                      )
-        },
-        value = pass,
-        onValueChange = {onValueChange},
-        trailingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.eye_icon),
-                contentDescription = null ,
-                tint = Color.Gray
-                )
-        },
-        label = {
-            Text(
-                text = "CellFin 6 Digit Pin",
-                color = Color.Gray)
-                },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number,
-            imeAction = ImeAction.Done
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp)
-    )
-}
-
 @Composable
 fun ViewBtn(context: ComponentActivity) {
     OutlinedButton(

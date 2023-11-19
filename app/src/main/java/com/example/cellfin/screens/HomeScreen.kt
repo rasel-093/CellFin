@@ -1,6 +1,8 @@
 package com.example.cellfin.screens
 
+import android.app.Application
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,8 +23,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -38,20 +43,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.cellfin.Components.Carousel
 import com.example.cellfin.R
 import com.example.cellfin.StatementActivity
+import com.example.cellfin.model.TrxItem
+import com.example.cellfin.model.TrxViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(navController: NavController, trxViewModel: TrxViewModel){
     val context = LocalContext.current // used in intent
     val sheetState = rememberModalBottomSheetState()
     var isSheetOpen by rememberSaveable { mutableStateOf(false) }
+
 
     Column (modifier = Modifier.fillMaxWidth()){
         Row(modifier = Modifier
@@ -85,7 +98,7 @@ fun HomeScreen(navController: NavController){
                     Row(modifier = Modifier
                         .fillMaxWidth(.95f)
                         .height(70.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(text = "MD. HIMEL MIA", modifier = Modifier.fillMaxWidth(.5f))
+                        Text(text = "MD. HIMEL MIA", modifier = Modifier.fillMaxWidth(.5f), fontWeight = FontWeight.SemiBold)
                         Button(onClick = { /*TODO*/ },modifier = Modifier.fillMaxWidth(.8f), colors = ButtonDefaults.buttonColors(containerColor = Color(245,198,34))) {
                             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                                 Image(painter = painterResource(id = R.drawable.taka), contentDescription = "taka")
@@ -143,33 +156,42 @@ fun HomeScreen(navController: NavController){
     if(isSheetOpen){
         ModalBottomSheet(
             sheetState = sheetState,
-            onDismissRequest = { isSheetOpen = false }
+            onDismissRequest = { isSheetOpen = false },
+            //modifier = Modifier.padding(bottom = 50.dp)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 50.dp)
             ) {
                 OutlinedTextField(
                     value = title,
                     onValueChange = {title = it},
-                    label = { Text(text = "Title")}
+                    label = { Text(text = "Title")},
+                    singleLine = true
                 )
                 OutlinedTextField(
                     value = details,
                     onValueChange = {details = it},
-                    label = {Text(text = "Details")}
-
+                    label = {Text(text = "Details")},
+                    singleLine = true
                 )
                 OutlinedTextField(
                     value = date,
                     onValueChange = {date = it},
-                    label = {Text(text = "Date")}
+                    label = {Text(text = "Date")},
+                    singleLine = true
                 )
                 OutlinedTextField(
                     value = trxId,
                     onValueChange = {trxId = it},
-                    label = {Text(text = "Transaction Id")}
+                    label = {Text(text = "Transaction Id")},
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    ),
+                    singleLine = true
                 )
                 OutlinedTextField(
                     value = amount,
@@ -177,11 +199,47 @@ fun HomeScreen(navController: NavController){
                     label = {Text(text = "amount")},
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
-                    )
+                    ),
+                    singleLine = true
                 )
                 //Add radio button here
                 //For cash in -> type = true.toString()
                 //For cashout -> type = false.toString()
+                val radioOptions = listOf("Cash In","Cash Out")
+                var selectedOption by rememberSaveable { mutableStateOf(radioOptions[0]) }
+                Row {
+                    radioOptions.forEach { type ->
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = (type == selectedOption),
+                                onClick = { selectedOption = type }
+                            )
+                            Text(
+                                text = type,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                    }
+                }
+                Row(modifier = Modifier.fillMaxWidth(0.8f),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    OutlinedButton(
+                        onClick = {
+                            var trxItem = TrxItem(
+                                null,
+                                title = title,
+                                details = details,
+                                date = date,
+                                trxId = trxId,
+                                amount = amount,
+                                trxType = if(selectedOption == radioOptions[0]) true.toString() else false.toString()
+                            )
+                            trxViewModel.insertTrx(trxItem)
+                            Toast.makeText(context,"Transaction Saved",Toast.LENGTH_SHORT).show()
+                        }) {
+                        Text(text = "Save", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    }
+                }
             }
         }
     }

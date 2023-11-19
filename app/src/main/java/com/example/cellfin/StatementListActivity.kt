@@ -1,5 +1,6 @@
 package com.example.cellfin
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,11 +32,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cellfin.model.TrxItem
+import com.example.cellfin.model.TrxViewModel
 import com.example.cellfin.model.trxList
 import com.example.cellfin.ui.theme.CellFinTheme
 import com.example.cellfin.ui.theme.fontWhite
 import com.example.cellfin.ui.theme.primaryColor
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class StatementListActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -47,6 +55,14 @@ class StatementListActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val trxViewModel: TrxViewModel = viewModel(
+                        factory = object : ViewModelProvider.Factory{
+                            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                                return TrxViewModel(applicationContext as Application) as  T
+                            }
+                        }
+                    )
+                    val trxItems = trxViewModel.allTrx.observeAsState(listOf()).value
                     Scaffold(
                         topBar = { TopBar()}
                     ) {paddingValues ->
@@ -60,7 +76,7 @@ class StatementListActivity : ComponentActivity() {
                                     .padding(15.dp)
                                     .verticalScroll(rememberScrollState())
                             ) {
-                                trxList.forEach {item->
+                                trxItems.forEach {item->
                                     TrxItemCard(trxItem = item )
                                 }
                             }
@@ -74,6 +90,14 @@ class StatementListActivity : ComponentActivity() {
 
 @Composable
 fun HeadingContent(padding: PaddingValues) {
+    val currentDate = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val formattedCurrentDate = currentDate.format(formatter)
+    val prevDate = currentDate.minusDays(30)
+    val formattedPrevDate = prevDate.format(formatter)
+
+    var fromDate = formattedPrevDate.toString()
+    var toDate = formattedCurrentDate.toString()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -83,7 +107,7 @@ fun HeadingContent(padding: PaddingValues) {
     ) {
         HeadingText(text = "CellFin")
         HeadingText(text = "01618 964 627")
-        HeadingText(text = "19/10/2023 to 19/11/2023")
+        HeadingText(text = "$fromDate to $toDate")
     }
 }
 
